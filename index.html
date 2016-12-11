@@ -1,0 +1,40 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Price Calculator</title>
+
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/table.css">
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>Price Calculator</h1>
+            <h4>Use it before travel for your own risk</h4>
+        </div>
+        <div id="app">
+            Loading! Please várjál ...
+        </div>
+    </div>
+    <script src="./vendor/jQuery/jquery.min.js"></script>
+    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./assets/js/OptionsComponent.js"></script>
+    <script src="./assets/js/TableRowComponent.js"></script>
+    <script src="./assets/js/program.js"></script>
+    <script src="./assets/js/CurrencyAPI.js"></script>
+    <script src="./assets/js/CurrencyWidgetComponent.js"></script>
+    <script src="./assets/js/CalculatorComponent.js"></script>
+    <script>
+        Calculator.render( '#app' );
+        /*var cp = new CurrencyWidget();
+        $( '#app' ).append( cp.getWidget() );
+        cp.loadCurrency();
+        */
+    </script>
+</body>
+</html>

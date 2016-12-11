@@ -1,0 +1,43 @@
+.alert .alert__title {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.dropdown-btn {
+    width: 100%;
+    overflow: hidden;
+    padding-right: 25px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.dropdown-btn .caret {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    margin-top: -2px;
+}
+
+.control .control__result {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.control .control__success {
+    border: 1px solid #7a98a7;
+    background: #d9edf7;
+    padding: 20px;
+
+    display: none;
+}
+
+.control .control__value {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.currency-widget {
+    margin: 10px;
+}

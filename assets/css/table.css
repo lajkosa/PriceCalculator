@@ -1,0 +1,15 @@
+tr th {
+    text-align: center;
+}
+
+tr.inactive td {
+    background-color: #eee;
+}
+
+tr.inactive td div {
+    opacity: .7;
+}
+
+.table .row__price {
+    margin-right: 5px;
+}
