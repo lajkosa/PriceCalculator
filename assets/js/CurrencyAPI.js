@@ -1,6 +1,6 @@
 var CurrencyAPI = (function( $ ) {
 
-    var _url = 'http://api.fixer.io/latest';
+    var _url = 'https://api.fixer.io/latest';
 
     var _availableCurrencies = [
         'USD', 'EUR', 'GBP'
@@ -39,28 +39,11 @@ var CurrencyAPI = (function( $ ) {
         });
     };
 
-    var _getAll = function( success, fail ) {
-
-        $.getJSON(
-            _url, {
-                base: _fromCurrency,
-                symbols: _availableCurrencies.join()
-            }
-        )
-        .done(function( data ) {
-            success( data.rates );
-        })
-        .fail(function( data ) {
-            fail( data );
-        });
-    };
-
     return {
         getCurrencies: _getCurrencies,
         setFrom: _setFrom,
         setDest: _setDest,
-        getDifference: _getDifference,
-        getAll: _getAll
+        getDifference: _getDifference
     };
 
 })( jQuery );
