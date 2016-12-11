@@ -23,8 +23,6 @@ var CurrencyAPI = (function( $ ) {
 
     var _getDifference = function( success, fail ) {
 
-        //var url = _url + '?base=' + _fromCurrency + '&symbols=' + _destCurrency;
-
         $.getJSON(
             _url, {
                 base: _fromCurrency,

@@ -2,6 +2,8 @@ var Calculator = (function( $, program ) {
 
     var _currencyWidget = new CurrencyWidget();
 
+    var _controls;
+
     var USD, EUR;
 
     var _programObjects = [];
@@ -38,30 +40,6 @@ var Calculator = (function( $, program ) {
             throw {
                 title: 'No informations about USD and EUR currencies!'
             }
-
-            /*
-            var total = 0;
-            var currency = undefined;
-
-            for ( var i = 0; i < _programObjects.length; ++i ) {
-
-                if ( _programObjects[ i ].isSelected() === false ) {
-                    continue ;
-                }
-
-                if ( currency !== undefined && currency !== _programObjects[ i ].getCurrency() ) {
-                    throw {
-                        title: 'Comparison error!',
-                        message: 'Currency missmatch <b>' + currency + ' and ' + _programObjects[ i ].getCurrency() + '</b>'
-                    };
-                }
-
-                total += _programObjects[ i ].getPrice();
-                currency = _programObjects[ i ].getCurrency();
-            }
-
-            return total;
-            */
         }
 
         var total = {
@@ -75,16 +53,15 @@ var Calculator = (function( $, program ) {
                 continue ;
             }
 
-            if ( _programObjects[ i ].getCurrency() === 'USD' || _programObjects[ i ].getCurrency() === 'EUR' ) {
+            if ( ['EUR', 'USD'].indexOf( _programObjects[ i ].getCurrency() ) === -1 ) {
 
-                total[ _programObjects[ i ].getCurrency() ] += _programObjects[ i ].getPrice();
-
-            } else {
                 throw {
                     title: 'Comparison error!',
                     message: 'Currency missmatch <b>' + currency + ' and ' + _programObjects[ i ].getCurrency() + '</b>'
                 };
             }
+
+            total[ _programObjects[ i ].getCurrency() ] += _programObjects[ i ].getPrice();
         }
 
         return Math.round( total.EUR * EUR ) + Math.round( total.USD * USD );
@@ -113,36 +90,41 @@ var Calculator = (function( $, program ) {
         );
     };
 
-    var _createControls = function() {
+    var _getControls = function() {
 
-        var controls = $( '<div class="control text-center">' );
+        if ( _controls === undefined ) {
 
-        controls
-            .append( _currencyWidget.getWidget() )
-            .append( '<div class="row"><div class="text-center control__value col-sm-6 col-sm-offset-3"></div></div>' )
-            .append( '<button class="control__button btn btn-success btn-large">Calculate</button>' )
-            .find( '.control__button' ).click(function( e ) {
-                try {
+            _controls = $( '<div class="control text-center">' );
 
-                    var total = _calculate();
+            _controls
+                .append( _currencyWidget.getWidget() )
+                .append( '<div class="row"><div class="text-center control__value col-sm-6 col-sm-offset-3"></div></div>' )
+                .append( '<button class="control__button btn btn-success btn-large">Calculate</button>' );
 
-                    $( '.control .control__value' ).html(
-                        '<div class="control__success">' +
-                            'Total cost: <span class="control__result">' + total.toLocaleString( 'hu-HU' ) + ' HUF</span>' +
-                        '</div>'
-                    );
+                /*
+                .find( '.control__button' ).click(function( e ) {
+                    try {
 
-                    controls.find( '.control__success' ).fadeIn( 600 );
+                        var total = _calculate();
 
-                } catch ( exception ) {
-                    $( '.control .control__value' ).html( _createAlertWidget( exception.title, exception.message ) );
-                }
-        });
+                        $( '.control .control__value' ).html(
+                            '<div class="control__success">' +
+                                'Total cost: <span class="control__result">' + total.toLocaleString( 'hu-HU' ) + ' HUF</span>' +
+                            '</div>'
+                        );
 
-        return controls;
+                        _controls.find( '.control__success' ).fadeIn( 600 );
+
+                    } catch ( exception ) {
+                        _controls.find( '.control__value' ).html( _createAlertWidget( exception.title, exception.message ) );
+                    }
+            });*/
+        }
+
+        return _controls;
     };
 
-    var _downloadCurrencies = function() {
+    var _downloadCurrencies = function( callback ) {
 
         CurrencyAPI.setFrom( 'USD' );
         CurrencyAPI.setDest( 'HUF' );
@@ -164,16 +146,81 @@ var Calculator = (function( $, program ) {
         });
     };
 
+    var _calculateCallback = function() {
+
+        if ( EUR === undefined || USD === undefined ) {
+            return ;
+        }
+
+        try {
+
+            var total = _calculate();
+
+            $( '.control .control__value' ).html(
+                '<div class="control__success">' +
+                    'Total cost: <span class="control__result">' + total.toLocaleString( 'hu-HU' ) + ' HUF</span>' +
+                '</div>'
+            );
+
+            _controls.find( '.control__success' ).fadeIn( 600 );
+
+        } catch ( exception ) {
+            _controls.find( '.control__value' ).html( _createAlertWidget( exception.title, exception.message ) );
+        }
+    };
+
+    var _clickOnCalculate = function( e ) {
+
+        _controls.append( '<i class="control__spinner fa fa-spinner fa-2x fa-pulse fa-fw"></i>' );
+
+        CurrencyAPI.setDest( 'HUF' );
+
+        if ( EUR !== undefined && USD !== undefined ) {
+            _calculateCallback();
+            _controls.find( '.control__spinner' ).remove();
+        } else {
+
+            if ( EUR === undefined ) {
+
+                CurrencyAPI.setFrom( 'EUR' );
+                CurrencyAPI.getDifference(function( data ) {
+
+                    EUR = data;
+
+                    _calculateCallback();
+                    _controls.find( '.control__spinner' ).remove();
+                }, function() {
+                    _controls.find( '.control__spinner' ).remove();
+                });
+            }
+
+            if ( USD === undefined ) {
+
+                CurrencyAPI.setFrom( 'USD' );
+                CurrencyAPI.getDifference(function( data ){
+
+                    USD = data;
+
+                    _calculateCallback();
+                    _controls.find( '.control__spinner' ).remove();
+                }, function() {
+                    _controls.find( '.control__spinner' ).remove();
+                });
+            }
+        }
+    };
+
     var _show = function( selector ) {
 
         // set currencies
-        _downloadCurrencies();
+        //_downloadCurrencies();
 
         $( selector ).html( '' );
         $( selector ).append( _createTable );
         _appendRows( selector );
 
-        $( selector ).append( _createControls );
+        $( selector ).append( _getControls );
+        _controls.click( _clickOnCalculate );
         _currencyWidget.loadCurrency();
 
         // init bootstrap dropdown menu
