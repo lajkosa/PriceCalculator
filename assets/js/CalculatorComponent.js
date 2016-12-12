@@ -99,51 +99,15 @@ var Calculator = (function( $, program ) {
             _controls
                 .append( _currencyWidget.getWidget() )
                 .append( '<div class="row"><div class="text-center control__value col-sm-6 col-sm-offset-3"></div></div>' )
-                .append( '<button class="control__button btn btn-success btn-large">Calculate</button>' );
-
-                /*
-                .find( '.control__button' ).click(function( e ) {
-                    try {
-
-                        var total = _calculate();
-
-                        $( '.control .control__value' ).html(
-                            '<div class="control__success">' +
-                                'Total cost: <span class="control__result">' + total.toLocaleString( 'hu-HU' ) + ' HUF</span>' +
-                            '</div>'
-                        );
-
-                        _controls.find( '.control__success' ).fadeIn( 600 );
-
-                    } catch ( exception ) {
-                        _controls.find( '.control__value' ).html( _createAlertWidget( exception.title, exception.message ) );
-                    }
-            });*/
+                .append(
+                    '<button class="control__button btn btn-success btn-large">' +
+                        '<i class="fa fa-calculator icon" aria-hidden="true"></i>' +
+                        'Calculate' +
+                    '</button>'
+                );
         }
 
         return _controls;
-    };
-
-    var _downloadCurrencies = function( callback ) {
-
-        CurrencyAPI.setFrom( 'USD' );
-        CurrencyAPI.setDest( 'HUF' );
-
-        // download USD
-        CurrencyAPI.getDifference(function( data ) {
-            USD = data;
-        }, function() {
-            USD = undefined;
-        });
-
-        CurrencyAPI.setFrom( 'EUR' );
-
-        // download EUR
-        CurrencyAPI.getDifference(function( data ) {
-            EUR = data;
-        }, function() {
-            EUR = undefined;
-        });
     };
 
     var _calculateCallback = function() {
@@ -190,6 +154,11 @@ var Calculator = (function( $, program ) {
                     _calculateCallback();
                     _controls.find( '.control__spinner' ).remove();
                 }, function() {
+
+                    _controls.find( '.control__value' ).html(_createAlertWidget(
+                        'Cannot load EUR information'
+                    ));
+
                     _controls.find( '.control__spinner' ).remove();
                 });
             }
@@ -204,6 +173,11 @@ var Calculator = (function( $, program ) {
                     _calculateCallback();
                     _controls.find( '.control__spinner' ).remove();
                 }, function() {
+
+                    _controls.find( '.control__value' ).html(_createAlertWidget(
+                        'Cannot load USD information'
+                    ));
+
                     _controls.find( '.control__spinner' ).remove();
                 });
             }
@@ -212,15 +186,12 @@ var Calculator = (function( $, program ) {
 
     var _show = function( selector ) {
 
-        // set currencies
-        //_downloadCurrencies();
-
         $( selector ).html( '' );
         $( selector ).append( _createTable );
         _appendRows( selector );
 
         $( selector ).append( _getControls );
-        _controls.click( _clickOnCalculate );
+        _controls.find( '.control__button' ).click( _clickOnCalculate );
         _currencyWidget.loadCurrency();
 
         // init bootstrap dropdown menu

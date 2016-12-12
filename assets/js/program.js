@@ -128,6 +128,20 @@ var program = [
         ]
     },
 
+    // Saigon
+    {
+        location: 'Saigon',
+        activity: 'Cu Chi Tunnels',
+        options: [
+            {
+                name: 'From Ho Chi Minh: Cu Chi Tunnels & Mekong Delta Tour',
+                link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/from-ho-chi-minh-cu-chi-tunnels-mekong-delta-tour-t67903/',
+                price: '83',
+                currency: 'EUR'
+            }
+        ]
+    }
+
     // Sapa guided tours
     //{},
 

@@ -3,6 +3,15 @@
     font-weight: bold;
 }
 
+.icon {
+    margin-right: 8px;
+}
+
+.currency-widget .currency-widget__to {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .dropdown-btn {
     width: 100%;
     overflow: hidden;

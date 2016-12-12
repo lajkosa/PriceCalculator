@@ -2,12 +2,12 @@
 //
 // data should looks like this
 // data = {
-//     currency String, -- default $
+//     currency String, -- default USD
 //     location String,
 //     activity: String, -- optional
 //     options [
-//         {name String, price Float, link String optional},
-//         {name String, price Float, link String optional},
+//         {name String, price Float, link String optional, currency String optional},
+//         {name String, price Float, link String optional, currency String optional},
 //          ...
 //     ]
 // }
@@ -30,7 +30,14 @@ var Options = function( data, onClickCallback ) {
     this._selectedOptionIndex = 0;
 
     this.getCurrency = function() {
-        return this._data.currency;
+//        return this._data.currency;
+
+        return ( this._data.options[ this._selectedOptionIndex ].currency !== undefined )
+            ? this._data.options[ this._selectedOptionIndex ].currency
+            : ( this._data.currency !== undefined )
+                ? this._data.currency
+                : 'USD'
+        ;
     };
 
     // the name of the city or region
@@ -139,7 +146,7 @@ var Options = function( data, onClickCallback ) {
                     ' id="' + this.getUniqueId() + '"' +
                     ' class="fake-dropdown">' +
                     '<button' +
-                        ' class="btn btn-default"' +
+                        ' class="btn btn-default dropdown-btn"' +
                         ' type="button">' +
                         this._data.options[ this._selectedOptionIndex ].name +
                     '</button>' +

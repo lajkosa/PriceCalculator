@@ -77,8 +77,8 @@ var CurrencyWidget = function( from, to ) {
                 '<span class="currency-widget__exchange-rate"></span>' +
                 '<span class="currency-widget__to">HUF</span>' +
                 '<button class="btn btn-primary currency-widget__change">' +
-                    '<span class="glyphicon glyphicon-refresh"></span>' +
-                    ' Download' +
+                    '<i class="glyphicon glyphicon-refresh icon"></i>' +
+                    'Download' +
                 '</button>' +
             '</div>'
         );
