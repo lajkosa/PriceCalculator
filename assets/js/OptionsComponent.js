@@ -17,6 +17,8 @@ var Options = function( data, onClickCallback ) {
 
     this._uniqueId = null;
 
+    this._defaultCurrency = 'USD';
+
     // returns an ID of component
     this.getUniqueId = function() {
 
@@ -30,13 +32,12 @@ var Options = function( data, onClickCallback ) {
     this._selectedOptionIndex = 0;
 
     this.getCurrency = function() {
-//        return this._data.currency;
 
-        return ( this._data.options[ this._selectedOptionIndex ].currency !== undefined )
+        return ( typeof( this._data.options[ this._selectedOptionIndex ].currency ) !== 'undefined' )
             ? this._data.options[ this._selectedOptionIndex ].currency
-            : ( this._data.currency !== undefined )
+            : ( typeof( this._data.currency ) !== 'undefined' )
                 ? this._data.currency
-                : 'USD'
+                : this._defaultCurrency
         ;
     };
 
@@ -84,16 +85,28 @@ var Options = function( data, onClickCallback ) {
 
         var tpl;
 
+        var currency = ( typeof( this._data.currency ) !== 'undefined' )
+            ? this._data.currency
+            : 'USD'
+        ;
+
         if ( this._data.options.length > 1 ) {
 
             var li = '';
+            var actualCurrency;
 
             for ( var i = 0; i < this._data.options.length; ++i ) {
+
+                actualCurrency = ( typeof( this._data.options[ i ].currency ) !== 'undefined'  )
+                    ? this._data.options[ i ].currency
+                    : currency
+                ;
+
                 li += '<li data-id="' + i + '">' +
                           '<a>' +
                                 this._data.options[ i ].name +
                               ' <span class="dropdown--price">' +
-                                    this._data.options[ i ].price + ' ' + this._data.currency +
+                                    this._data.options[ i ].price + ' ' + actualCurrency +
                               ' </span>' +
                           '</a>' +
                       '</li>'
@@ -160,8 +173,4 @@ var Options = function( data, onClickCallback ) {
     this._buildTemplate = function() {
         return this._generateDropdown();
     };
-
-    if ( this._data.currency === undefined ) {
-        this._data.currency = '$';
-    }
 };

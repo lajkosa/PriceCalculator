@@ -1,6 +1,23 @@
 // the list of programs.
 var program = [
 
+    // Sapa
+    {
+        location: 'Sapa',
+        activity: 'Tracking - hiking for 2 persons',
+        options: [
+            {
+                name: 'The Spirit Tree 2 days 1 night',
+                link: 'http://www.ethosspirit.com/the-spirit-tree.html',
+                price: 77
+            },
+            {
+                name: 'Simply Hmong - family lunch experience',
+                link: 'http://www.ethosspirit.com/simply-hmong.html',
+                price: 45
+            }
+        ]
+    },
     // Hanoi street food tours
     {
         location: 'Hanoi',
@@ -132,12 +149,32 @@ var program = [
     {
         location: 'Saigon',
         activity: 'Cu Chi Tunnels',
+        currency: 'EUR',
         options: [
+            {
+                name: 'Half-Day Cu Chi Tunnels Tour by Bus',
+                link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/half-day-cu-chi-tunnels-tour-by-bus-t14297/',
+                price: 19
+            },
+            {
+                link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/half-day-cu-chi-tunnels-tour-t60689/',
+                name: 'Half-Day Cu Chi Tunnels Tour - akciósan',
+                price: 20
+            },
+            {
+                name: 'Cu Chi Tunnels 6-Hour Tour from Ho Chi Minh City',
+                link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/from-ho-chi-minh-city-half-day-cu-chi-tunnels-tour-t67116/',
+                price: 15
+            },
+            {
+                name: 'Cu Chi Tunnels & Mekong Delta: Full-Day Guided Tour',
+                link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/cu-chi-tunnels-mekong-delta-full-day-guided-tour-t22706/',
+                price: 52
+            },
             {
                 name: 'From Ho Chi Minh: Cu Chi Tunnels & Mekong Delta Tour',
                 link: 'https://www.getyourguide.com/ho-chi-minh-city-l272/from-ho-chi-minh-cu-chi-tunnels-mekong-delta-tour-t67903/',
-                price: '83',
-                currency: 'EUR'
+                price: 83
             }
         ]
     }

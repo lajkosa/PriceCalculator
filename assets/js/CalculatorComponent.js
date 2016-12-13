@@ -57,7 +57,7 @@ var Calculator = (function( $, program ) {
 
                 throw {
                     title: 'Comparison error!',
-                    message: 'Currency missmatch <b>' + currency + ' and ' + _programObjects[ i ].getCurrency() + '</b>'
+                    message: 'Currency missmatch: ' + _programObjects[ i ].getCurrency() + ' is not allowed.'
                 };
             }
 
